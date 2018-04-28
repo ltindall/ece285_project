@@ -17,7 +17,7 @@
 \title{Our Sick Computer Vision Project}
 
 \author{
-Phatt ~Pham\\
+Phat ~Pham\\
 \texttt{p6phan@eng.ucsd.edu} \\ \And
 Christian ~Koguchi\\
 \texttt{ckoguchi@eng.ucsd.edu} \\ \And
@@ -43,28 +43,34 @@ Lucas ~Tindall\\
 \end{abstract}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Introduction
+% Objectives
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Introduction}
+\section{Objectives}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Related Works
+% Challenges
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Related Works}
+\section{Challenges}
+
+GANs are difficult to train.  An imbalance in performance between the Generator network and the Discriminator network could lead to poor performance and instablity since an overpowering Discriminator will cause the Generator to be unable to learn and an overpowering Generator will be unable to improve from a weak Discriminator. 
+
+It is difficult to quantitatively test the performance of GANs using an evaluation metric without being subjective or relying on heuristics specific to the data.  It is hard to compare performance across different domains and datasets in a systematic way.  
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dataset
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Dataset}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Project Proposal
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Project Proposal}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,6 +78,23 @@ Lucas ~Tindall\\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{References}
 
+Precomputed Real-Time Texture Synthesis with Markovian Generative Adversarial Networks: \\ 
+\quad https://arxiv.org/pdf/1604.04382.pdf \\ 
+
+Unsupervised Cross-Domain Image Generation: \\ 
+\quad https://arxiv.org/pdf/1611.02200.pdf \\ 
+
+Image-to-Image Translation with Conditional Adversarial Networks: \\ 
+\quad https://arxiv.org/pdf/1611.07004.pdf \\ 
+
+GAN Hacks:  \\ 
+\quad https://github.com/soumith/ganhacks \\ 
+
+Towards Principled Methods For Training Generative Adversarial Networks: \\ 
+\quad https://openreview.net/pdf?id=Hk4\_qw5xe \\ 
+
+Improved Techniques for Training GANs: \\ 
+\quad https://arxiv.org/pdf/1606.03498.pdf \\ 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
