@@ -1,0 +1,22 @@
+Project – Important dates (non-respect ⇒ penalties)
+
+
+April 27 (11:59pm): Group creation. Email me at cdeledal@ucsd.edu
+author: the leader of the team.
+CC: other members of the team.
+title: [ECE285][Group] Team Name
+content: one line per member with three fields: name, id and email.
+
+April 30 (11:59pm): Project proposal. Email me at cdeledal@ucsd.edu
+author: the leader of the team.
+CC: other members of the team.
+title: [ECE285][Topic] Team Name
+content: 350 words to indicate briefly your project, objectives,
+challenges and the datasets that you will be using if any.
+
+May 4 (11:59pm): notification for project approval + modifications.
+
+May 25 (11:59pm): submission of progress report.
+
+Final week: submission of final report + Git repository (no presentation).
+
