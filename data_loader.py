@@ -23,8 +23,8 @@ class Data(Dataset):
         self.transform = transform
 
         # Go to root directory and create list of all filenames
-        os.chdir(self.root_dir)
-        self.file_list = [f for f in os.listdir(dataset_dir) if os.path.isfile(os.path.join(dataset_dir, f))]
+       
+        self.file_list = [f for f in os.listdir(root_dir) if os.path.isfile(os.path.join(root_dir, f))]
 
 
     def __len__(self):
@@ -36,7 +36,7 @@ class Data(Dataset):
         filename = self.file_list[idx]
 
         # Images stored as Numpy Array (256, 256, 3)
-        img = io.imread(filename)
+        img = io.imread(self.root_dir+filename)
 
         # Store samples as dictionary {String filename, ndarray image}
         sample = {'filename': filename, 'img': img}
@@ -119,25 +119,26 @@ class ConvGenerator(nn.Module):
         return x
 
 
+if __name__ == "__main__": 
 
-G = ConvGenerator()
-
-
-dataset_dir = '/home/ckoguchi/Documents/ECE 285/Datasets/monet2photo/trainB'
-landscape_dataset = Data(dataset_dir)
+    G = ConvGenerator()
 
 
-for i in range(len(landscape_dataset)):
-    if i == 1:
-        break
+    dataset_dir = '/home/ckoguchi/Documents/ECE 285/Datasets/monet2photo/trainB'
+    landscape_dataset = Data(dataset_dir)
 
-    sample = landscape_dataset[i]
-    # y = G.forward(sample)
 
-    print(sample['img'].shape)
-    print(type(sample['img']))
+    for i in range(len(landscape_dataset)):
+        if i == 1:
+            break
 
-    imshow(sample)
+        sample = landscape_dataset[i]
+        # y = G.forward(sample)
+
+        print(sample['img'].shape)
+        print(type(sample['img']))
+
+        imshow(sample)
 
 
 
