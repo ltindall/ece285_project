@@ -47,7 +47,6 @@ class Patch_Discriminator(nn.Module):
 class Generator(nn.Module):
     def __init__(self, z_size, g_filter_size, out_channels ):
         super(Generator, self).__init__()
-        self.ngpu = ngpu
         self.net = nn.Sequential(
             # input is Z, going into a convolution
             
