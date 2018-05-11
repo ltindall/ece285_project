@@ -41,3 +41,56 @@ class Patch_Discriminator(nn.Module):
     def forward(self, input):
         output =  self.model(input)
         return output.view(-1, 1).squeeze(1)
+
+
+
+class Generator(nn.Module):
+    def __init__(self, z_size, g_filter_size, out_channels ):
+        super(Generator, self).__init__()
+        self.ngpu = ngpu
+        self.net = nn.Sequential(
+            # input is Z, going into a convolution
+            
+            UpBlock(z_size, g_filter_size*32, 4, 1, 0),
+            # size = (g_filter_size*32) x 4 x 4
+            
+            UpBlock(g_filter_size*32, g_filter_size*16, 4, 2, 1),
+            # size = (g_filter_size*16) x 8 x 8
+            
+            UpBlock(g_filter_size*16, g_filter_size*8, 4, 2, 1),
+            # size = (g_filter_size*32) x 16 x 16
+            
+            UpBlock(g_filter_size*8, g_filter_size*4, 4, 2, 1),
+            # size = (g_filter_size*32) x 32 x 32
+            
+            UpBlock(g_filter_size*4, g_filter_size*2, 4, 2, 1), 
+            # size = (g_filter_size*32) x 64 x 64
+            
+            UpBlock(g_filter_size*2, g_filter_size, 4, 2, 1),
+            # size = (g_filter_size*32) x 128 x 128
+            
+            nn.ConvTranspose2d(g_filter_size, out_channels, 4, 2, 1),
+            nn.Tanh()
+            # size = (g_filter_size*32) x 256 x 256
+        )
+
+    def forward(self, input):
+        
+        return self.net(input)
+    
+class UpBlock(torch.nn.Module):
+
+    def __init__(self, in_channels, out_channels, kernel_size, stride, padding):
+        super(UpBlock, self).__init__()
+        
+        self.up_block = nn.Sequential(
+            # input is Z, going into a convolution
+            nn.ConvTranspose2d(in_channels, out_channels, kernel_size, stride=stride, padding=padding),
+            nn.BatchNorm2d(out_channels),
+            nn.ReLU(True)
+        )
+
+    def forward(self, x):
+
+        return self.up_block(x)
+
