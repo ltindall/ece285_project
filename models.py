@@ -27,7 +27,7 @@ class Patch_Discriminator(nn.Module):
 
 
         self.model = nn.Sequential(
-            *convolutional_block(input_filters=input_channels*2, output_filters=64, normalization=False),
+            *convolutional_block(input_filters=input_channels, output_filters=64, normalization=False),
             *convolutional_block(input_filters=64, output_filters=128),
             *convolutional_block(input_filters=128, output_filters=256),
             *convolutional_block(input_filters=256, output_filters=512),
