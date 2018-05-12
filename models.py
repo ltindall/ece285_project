@@ -27,12 +27,14 @@ class Patch_Discriminator(nn.Module):
 
 
         self.model = nn.Sequential(
-            *convolutional_block(input_filters=input_channels, output_filters=64, normalization=False),
+            *convolutional_block(input_filters=input_channels, output_filters=32, normalization=False),
+            *convolutional_block(input_filters=32, output_filters=64),
             *convolutional_block(input_filters=64, output_filters=128),
             *convolutional_block(input_filters=128, output_filters=256),
             *convolutional_block(input_filters=256, output_filters=512),
-            nn.ZeroPad2d((1, 0, 1, 0)),
-            nn.Conv2d(in_channels=512, out_channels=1, kernel_size=4, padding=1, bias=False),
+            *convolutional_block(input_filters=512, output_filters=1024),
+            #nn.ZeroPad2d((1, 0, 1, 0)),
+            nn.Conv2d(in_channels=1024, out_channels=1, kernel_size=4, stride=1, padding=0, bias=False),
             nn.Sigmoid()
         )
 
