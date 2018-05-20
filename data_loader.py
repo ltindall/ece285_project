@@ -35,14 +35,22 @@ class Data(Dataset):
 
 
     def __len__(self):
-        return len(self.file_list)
+        return int(len(self.file_list)/self.batch_size)
 
     def __getitem__(self, idx):
 
         # TODO: Get Transforms working: ERROR Related PIL and numpy transform...
 
         # Fetch file from directory
-        filename = self.file_list[idx:idx+self.batch_size]
+        start = idx*self.batch_size
+        end = (idx + 1)*self.batch_size
+        
+        
+        # print('\tFetching batch: ', idx)
+
+        filename = self.file_list[idx*self.batch_size:(idx + 1)*self.batch_size]
+        
+        # print(len(filename))
 
         # Images stored as Numpy Array (256, 256, 3)
         img_list = [io.imread(self.root_dir+f) for f in filename]
