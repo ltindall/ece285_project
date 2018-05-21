@@ -59,7 +59,7 @@ out_channels = 3
 netG = unet(3, 3, n_filters_start=128)
 netD = Patch_Discriminator()
 
-warm_start = True
+warm_start = False
 output_dir = './gan_output/'
 
 if warm_start:
@@ -79,7 +79,8 @@ criterion = nn.BCELoss() # "Binary Cross Entropy", not "Before Common Era"
 # Specify Optimizer
 
 lr_G = 0.001
-lr_D = 0.000005
+lr_D = 0.00001
+# lr_D = 0.001
 beta = 0.5 # momentum?
 
 optimizerD = optim.Adam(netD.parameters(), lr=lr_D, betas=(beta, 0.999))
@@ -118,8 +119,6 @@ dataloader = Data(root_dir, batch_size=batch_size)
 
 num_epochs = 100
 
-real_label = 0.90
-fake_label = 0
 # fixed_noise = Variable(torch.randn(batch_size, z_dim, 1, 1))
 
 fixed_noise = Variable(torch.randn(1, 3, 256, 256))
@@ -128,9 +127,16 @@ if GPU:
     fixed_noise = fixed_noise.cuda()
 
 
+backprop_D = True
+backprop_G = True
+
 for epoch in range(num_epochs):
     for i in range(len(dataloader)):
         
+
+        real_label = np.random.uniform(0.7, 0.90)
+        fake_label = np.random.uniform(0.0, 0.05)
+
         data = np.array(dataloader[i])
         data = np.moveaxis(data, 3, 1)
 
@@ -161,12 +167,9 @@ for epoch in range(num_epochs):
         errD_real = criterion(output, label)
         D_x = output.mean().data
         
-        errD_real.backward() # hack for backpropagating only sometimes...
 
-        # if np.abs(D_x - fake_label) > 0.3 and i > 1:
-        #    errD_real.backward() # hack for backpropagating only sometimes...
-        #    print('Backprop: D')
-
+        if backprop_D:
+            errD_real.backward() # hack for backpropagating only sometimes...
 
         # train with generated data
 
@@ -182,11 +185,9 @@ for epoch in range(num_epochs):
          
         D_G_z1 = output.mean().data
 
-        errD_fake.backward() # hack for backpropagating only sometimes...
-
-        # if np.abs(D_G_z1- real_label/2) > 0.3 and i > 1:  
-        #     errD_fake.backward() # hack for backpropagating only sometimes...
-        #     print('Backprop: D')
+        
+        if backprop_D:
+            errD_fake.backward() # hack for backpropagating only sometimes...
 
         errD = errD_real + errD_fake
         optimizerD.step()
@@ -198,16 +199,35 @@ for epoch in range(num_epochs):
         output = netD(fake)
         errG = criterion(output, label)
         
-        errG.backward()
+        if backprop_G:
+            errG.backward()
 
         D_G_z2 = output.mean().data
         optimizerG.step()
+        
+        # Make backprop pause for D or G if too extreme
+        if (errD.data > 10* errG.data) or (np.abs(D_x - .5) > 0.15):
+            backprop_D = False
+        else:
+            backprop_D = True
+        
+        if D_G_z1 > 0.7:
+            backprop_G = False
+        else:
+            backprop_G = True
+        
+        if D_G_z1 < 0.2:
+            backprop_D = False
+        else:
+            backprop_D = True
+
+
 
         if i % batch_size == 0:
             
             print('[%d/%d][%d/%d] Loss_D: %.4f Loss_G: %.4f D(x): %.4f D(G(z)): %.4f / %.4f'
                   % (epoch, num_epochs, i, len(dataloader),
-                     errD.data, errG.data, D_x, D_G_z1, D_G_z1))
+                     errD.data, errG.data, D_x, D_G_z1, D_G_z2))
             
         if i % 500 == 0:
             fake = netG(fixed_noise)
