@@ -16,3 +16,6 @@ src_code/models.py -- Module which defines our various network models (Cyclegan,
 src_code/cyclegan.py -- Script version of the train.ipynb notebook    
 checkpoints/monet2photo/*.pth -- Saved model files for the CycleGAN generators and discriminators (G_AB, G_BA, D_A, D_B)   
 get_dataset.sh -- Bash script to download the monet2photo dataset and place in the proper directory for use with our scripts 
+
+
+![cycle_gan](cyclegan.png "CycleGAN output")
