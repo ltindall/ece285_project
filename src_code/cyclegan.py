@@ -28,7 +28,7 @@ from data_loader import *
 verbose = True
 
 # epoch to start training from
-start_epoch = 142
+start_epoch = 164
 
 # number of training epochs
 n_epochs = 200
